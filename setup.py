@@ -14,7 +14,7 @@ with open('requirements.txt') as f:
 install_requires = [r.strip() for r in require]
 
 setup(
-    name='anahidroapi',
+    name='ana-hydro-api',
     version='1.0.0',
     include_package_data=True,
     pacotes=find_packages('src'),
