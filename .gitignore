@@ -1,0 +1,14 @@
+*.ipynb_checkpoints/
+*.pyc
+.idea/
+venv/
+Medicoes/*/*.txt
+*.xls
+*.xlsx
+graficos/
+output/
+*.vscode/
+*.pypirc
+dist/
+hydrocomp.egg-info/
+build/
