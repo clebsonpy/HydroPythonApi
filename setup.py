@@ -34,8 +34,8 @@ setup(
     license='MIT License',
     author='Clebson Farias',
     author_email='clebson2007.farias@gmail.com',
-    keywords='hydrology statistic iha flow',
-    description=u'Desenvolvido para estudos hidrológicos',
+    keywords='ana python api',
+    description='Developed for hydrological studies',
     install_requires=install_requires,
     packages=['api_ana'],
 )

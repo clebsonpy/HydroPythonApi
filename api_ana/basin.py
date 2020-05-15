@@ -1,5 +1,5 @@
 import pandas as pd
-from hydrocomp.api_ana.api_biuld import ApiBiuld
+from api_ana.api_biuld import ApiBiuld
 
 
 class Basin(ApiBiuld):

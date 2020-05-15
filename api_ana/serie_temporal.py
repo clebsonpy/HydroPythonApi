@@ -1,6 +1,6 @@
 import pandas as pd
 import calendar as ca
-from hydrocomp.api_ana.api_biuld import ApiBiuld
+from api_ana.api_biuld import ApiBiuld
 
 
 class SerieTemporal(ApiBiuld):
@@ -22,8 +22,8 @@ class SerieTemporal(ApiBiuld):
         root = self.requests()
         series = []
         for month in root.iter('SerieHistorica'):
-            vazao = []
-            codigo = month.find('EstacaoCodigo').text
+            flow = []
+            code = month.find('EstacaoCodigo').text
             date_str = month.find('DataHora').text
             date = pd.to_datetime(date_str, dayfirst=True)
             days = ca.monthrange(date.year, date.month)[1]
@@ -36,12 +36,12 @@ class SerieTemporal(ApiBiuld):
             for i in range(1, n_days+1):
                 value = self.typesData[self.params['tipoDados']][0].format(i)
                 try:
-                    vazao.append(float(month.find(value).text))
+                    flow.append(float(month.find(value).text))
                 except TypeError:
-                    vazao.append(month.find(value).text)
+                    flow.append(month.find(value).text)
                 except AttributeError:
-                    vazao.append(None)
-            series.append(pd.Series(vazao, index=date_idx, name=codigo))
+                    flow.append(None)
+            series.append(pd.Series(flow, index=date_idx, name=code))
         try:
             data_flow = pd.DataFrame(pd.concat(series))
         except ValueError:

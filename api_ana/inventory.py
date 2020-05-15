@@ -1,9 +1,8 @@
 import pandas as pd
-from hydrocomp.api_ana.api_biuld import ApiBiuld
-#import geopandas
+from api_ana.api_biuld import ApiBiuld
 
 
-class Inventario(ApiBiuld):
+class Inventory(ApiBiuld):
 
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroInventario'
     params = {'codEstDE': '', 'codEstATE': '', 'tpEst': '', 'nmEst': '', 'nmRio': '', 'codSubBacia': '', 'codBacia': '',
@@ -23,7 +22,6 @@ class Inventario(ApiBiuld):
         for station in root.iter('Table'):
             code = station.find('Codigo').text
             stations.at[code, 'Name'] = station.find('Nome').text
-            #stations.at[code, 'Point'] = geopandas.points_from_xy(x=float(station.find('Latitude').text), y=[float(station.find('Longitude').text)])
             stations.at[code, 'Latitude'] = float(station.find('Latitude').text)
             stations.at[code, 'Longitude'] = float(station.find('Longitude').text)
             stations.at[code, 'SubBaciaCodigo'] = station.find('SubBaciaCodigo').text
