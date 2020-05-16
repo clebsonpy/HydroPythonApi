@@ -11,7 +11,7 @@ long_description = '{}'.format(read('README.md'))
 
 setup(
     name='ana-hydro-api',
-    version='1.0.2',
+    version='1.0.4',
     include_package_data=True,
     pacotes=find_packages('src'),
     long_description=long_description,
