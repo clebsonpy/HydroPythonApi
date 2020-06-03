@@ -10,7 +10,7 @@ def read(*parts):
 long_description = '{}'.format(read('README.md'))
 
 setup(
-    name='ana-hydro-api',
+    name='ana-hidro-api',
     version='1.0.4',
     include_package_data=True,
     pacotes=find_packages('src'),
