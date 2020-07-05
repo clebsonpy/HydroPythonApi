@@ -1,6 +1,6 @@
 import pandas as pd
 import calendar as ca
-from api_ana.api_biuld import ApiBiuld
+from ..api_biuld import ApiBiuld
 
 
 class SerieTemporal(ApiBiuld):

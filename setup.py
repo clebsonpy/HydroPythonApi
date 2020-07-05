@@ -10,8 +10,8 @@ def read(*parts):
 long_description = '{}'.format(read('README.md'))
 
 setup(
-    name='ana-hidro-api',
-    version='1.0.4',
+    name='hydro-python-api',
+    version='1.1.0',
     include_package_data=True,
     pacotes=find_packages('src'),
     long_description=long_description,
@@ -33,5 +33,5 @@ setup(
     keywords='ana python api',
     description='Developed for hydrological studies',
     install_requires=['defusedxml>=0.6.0', 'pandas>=0.25.1', 'requests>=2.18.4', 'xlrd>=1.1.0'],
-    packages=['api_ana'],
+    packages=['hydro_api'],
 )
