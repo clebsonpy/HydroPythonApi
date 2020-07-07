@@ -14,7 +14,15 @@ class SerieTemporal(ApiBiuld):
         index_multi = list(zip(*[list_date, list_cons]))
         return pd.MultiIndex.from_tuples(index_multi, names=["Date", "Consistence"])
 
-    def get(self, **kwargs):
+    def get(self, code, type, date_start='', date_end=''):
+        """
+        :param code:
+        :param type: '3' - Flow; '2' - Rainfall; '1' - Height
+        :param date_start:
+        :param date_end:
+        :return: pd.DataFrame(index='Date, Consistence', columns=['Code'])
+        """
+        kwargs = {'codEstacao': code, 'dataInicio': date_start, 'dataFim': date_end, 'tipoDados': type}
 
         super().get(**kwargs)
 

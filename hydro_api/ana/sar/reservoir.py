@@ -10,7 +10,7 @@ class Reservoir:
         self.name = name
         self.city = city
         self.state = state
-        self.serie_temporal = SerieTemporal().get(code=code)
+        self.series_temporal = SerieTemporal().get(code=code)
 
     def __str__(self):
         return f"Code: {self.code}\nName: {self.name}\nCity: {self.city}\nState: {self.state}"
