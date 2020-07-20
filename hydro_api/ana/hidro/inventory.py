@@ -6,7 +6,7 @@ from ..hidro.basin import BasinApi
 
 class _Station:
 
-    def __init__(self, code, name, lat, lon, city, type, watersheds, responsible, operator, area):
+    def __init__(self, code, name, lat, lon, city, type_station, watersheds, responsible, operator, area):
         self.code = code
         self.name = name
         self.latitude = lat
@@ -17,16 +17,16 @@ class _Station:
         self.responsible = responsible
         self.operator = operator
         self.area = area
-        if type == '1':
-            self.__series_temporal = {"Flow": SerieTemporal().get(code=code, type='3'),
-                                      "Height": SerieTemporal().get(code=code, type='1')}
-        elif type == '2':
-            self.__series_temporal = {"Rainfall": SerieTemporal().get(code=code, type='2')}
-        else:
-            self.__series_temporal = None
+        self.type_station = type_station
+        self.__series_temporal = None
 
     @property
     def series_temporal(self):
+        if self.type_station == '1':
+            self.__series_temporal = {"Flow": SerieTemporal().get(code=self.code, type='3'),
+                                      "Height": SerieTemporal().get(code=self.code, type='1')}
+        elif self.type_station == '2':
+            self.__series_temporal = {"Rainfall": SerieTemporal().get(code=self.code, type='2')}
         return self.__series_temporal
 
     def __str__(self):
@@ -92,7 +92,7 @@ class Inventory(ApiBiuld):
             print(stations)
             station = _Station(code=stations.index.values[0], name=stations['Name'].values[0],
                                lat=stations["Latitude"].values[0], lon=stations["Longitude"].values[0],
-                               watersheds=stations["Watersheds"].values[0], type=stations["Type"].values[0],
+                               watersheds=stations["Watersheds"].values[0], type_station=stations["Type"].values[0],
                                city=stations["City"].values[0], responsible=stations["Responsible"].values[0],
                                operator=stations["Operator"].values[0], area=stations["Area"].values[0])
             return station
