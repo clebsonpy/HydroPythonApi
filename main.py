@@ -1,16 +1,11 @@
-from hydro_api.ana.sar.reservoir import Reservoirs
-from hydro_api.ana.sar.serie_temporal import SerieTemporal
-from hydro_api.ana.hidro.inventory import Inventory
-from hydro_api.ana.hidro.basin import BasinApi
-
-station = Inventory()["49330000"]
-print(station.series_temporal["Flow"])
-print(station.series_temporal["Height"])
+from hydro_api.ana.sar import Reservoirs
 
 
-reservoir = Reservoirs()
-serie = SerieTemporal()
+reservoir = Reservoirs()["19086"]
 
-print(serie.get(code="12541", date_start="03/04/2019").volume)
+# print(reservoir.series_temporal.flow.to_csv("sar_manso.csv"))
+# print(serie.get(code="12541", date_start="03/04/2019").volume)
+# print(reservoir.series_temporal.flow)
+# print(reservoir.series_temporal.affluence)
 print(reservoir)
 
