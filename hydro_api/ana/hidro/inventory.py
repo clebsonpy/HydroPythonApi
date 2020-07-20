@@ -12,7 +12,6 @@ class _Station:
         self.latitude = lat
         self.longitude = lon
         self.city = city
-        self.type = type
         self.watersheds = BasinApi().get(code_watersheds=watersheds).watersheds[watersheds]
         self.responsible = responsible
         self.operator = operator
@@ -20,13 +19,14 @@ class _Station:
         self.type_station = type_station
         self.__series_temporal = None
 
-    @property
-    def series_temporal(self):
-        if self.type_station == '1':
-            self.__series_temporal = {"Flow": SerieTemporal().get(code=self.code, type='3'),
-                                      "Height": SerieTemporal().get(code=self.code, type='1')}
-        elif self.type_station == '2':
-            self.__series_temporal = {"Rainfall": SerieTemporal().get(code=self.code, type='2')}
+    def series_temporal(self, type_data=None):
+        if self.type_station == "1":
+            if type_data == "3":
+                self.__series_temporal = SerieTemporal().get(code=self.code, type='3')
+            elif type_data == "1":
+                self.__series_temporal = SerieTemporal().get(code=self.code, type='1')
+        elif self.type_station == "2":
+            self.__series_temporal = SerieTemporal().get(code=self.code, type='2')
         return self.__series_temporal
 
     def __str__(self):
@@ -89,7 +89,6 @@ class Inventory(ApiBiuld):
             stations.at[code, 'Operator'] = station.find('OperadoraCodigo').text
             stations.at[code, 'Area'] = station.find('AreaDrenagem').text
         if len(stations) == 1:
-            print(stations)
             station = _Station(code=stations.index.values[0], name=stations['Name'].values[0],
                                lat=stations["Latitude"].values[0], lon=stations["Longitude"].values[0],
                                watersheds=stations["Watersheds"].values[0], type_station=stations["Type"].values[0],
