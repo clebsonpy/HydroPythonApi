@@ -44,16 +44,19 @@ class Inventory(ApiBiuld):
         self.__stations = {}
 
     def __getitem__(self, item):
-        if item in self.__stations:
+        if item not in self.__stations:
+            station = self.get(code_start=item)
+            self.__stations[item] = station
             return self.__stations[item]
         return self.get(code_start=item)
 
-    def get(self, code_start='', code_end='', type='', name='', name_river='', code_watersheds='', code_basin='',
-            name_city='', name_state='', responsible='', operator='', telemetrica=''):
+    def get(self, code_start: str = '', code_end: str = '', type_station: str = '', name: str = '',
+            name_river: str = '', code_watersheds: str = '', code_basin: str = '', name_city: str = '',
+            name_state: str = '', responsible: str = '', operator: str = '', telemetrica: bool = False):
         """
         :param code_start: Código de 8 dígitos da estação - INICIAL (Ex.: 00047000)
         :param code_end: Código de 8 dígitos da estação - FINAL (Ex.: 90300000)
-        :param type: Tipo da estação (1-Flu ou 2-Plu)
+        :param type_station: Tipo da estação (1-Flu ou 2-Plu)
         :param name: Nome da Estação (Ex.: Barra Mansa)
         :param name_river: Nome do Rio (Ex.: Rio Javari)
         :param code_watersheds: Código da Sub-Bacia hidrografica (Ex.: 10)
@@ -63,15 +66,17 @@ class Inventory(ApiBiuld):
         :param responsible: Sigla do Responsável pela estação (Ex.: ANA)
         :param operator: Sigla da Operadora da estação (Ex.: CPRM)
         :param telemetrica: (Ex: 1-SIM ou 0-NÃO)
-        :return: pd.DataFrame
+        :return: pd.DataFrame or Station object
         """
-        kwargs = {'codEstDE': code_start, 'codEstATE': code_end, 'tpEst': type, 'nmEst': name, 'nmRio': name_river,
-                  'codSubBacia': code_watersheds, 'codBacia': code_basin, 'nmMunicipio': name_city,
-                  'nmEstado': name_state, 'sgResp': responsible, 'sgOper': operator, 'telemetrica': telemetrica}
+        kwargs = {'codEstDE': code_start, 'codEstATE': code_end, 'tpEst': type_station, 'nmEst': name,
+                  'nmRio': name_river, 'codSubBacia': code_watersheds, 'codBacia': code_basin, 'nmMunicipio': name_city,
+                  'nmEstado': name_state, 'sgResp': responsible, 'sgOper': operator,
+                  'telemetrica': {True: 1, False: 0}[telemetrica]}
 
         super().get(**kwargs)
 
         self.params.update(kwargs)
+        print(self.params)
         root = self.requests()
 
         stations = pd.DataFrame(columns=[
@@ -88,11 +93,12 @@ class Inventory(ApiBiuld):
             stations.at[code, 'Responsible'] = station.find('ResponsavelCodigo').text
             stations.at[code, 'Operator'] = station.find('OperadoraCodigo').text
             stations.at[code, 'Area'] = station.find('AreaDrenagem').text
-        if len(stations) == 1:
+
             station = _Station(code=stations.index.values[0], name=stations['Name'].values[0],
                                lat=stations["Latitude"].values[0], lon=stations["Longitude"].values[0],
                                watersheds=stations["Watersheds"].values[0], type_station=stations["Type"].values[0],
                                city=stations["City"].values[0], responsible=stations["Responsible"].values[0],
                                operator=stations["Operator"].values[0], area=stations["Area"].values[0])
-            return station
-        return stations
+
+            self.__stations[station.code] = station
+        return self
