@@ -40,10 +40,10 @@ class SerieTemporal(ApiBiuld):
                 try:
                     date = pd.to_datetime(i[6].text.strip())
                     code = i[0].text.strip()
-                    series.volume.at[date, code] = i[2].text.strip()
-                    series.height.at[date, code] = i[3].text.strip()
-                    series.affluence.at[date, code] = i[4].text.strip()
-                    series.flow.at[date, code] = i[5].text.strip()
+                    series.volume.at[date, code] = float(i[2].text.strip())
+                    series.height.at[date, code] = float(i[3].text.strip())
+                    series.affluence.at[date, code] = float(i[4].text.strip())
+                    series.flow.at[date, code] = float(i[5].text.strip())
                 except AttributeError:
                     pass
             return series
@@ -54,9 +54,9 @@ class SerieTemporal(ApiBiuld):
                     date = pd.to_datetime(i[4].text.strip())
                     code = i[0].text.strip()
                     series.code_hydro = i[5].text.strip()
-                    series.volume.at[date, code] = i[3].text.strip()
-                    series.height.at[date, code] = i[2].text.strip()
-                    series.capacity = i[6].text.strip()
+                    series.volume.at[date, code] = float(i[3].text.strip())
+                    series.height.at[date, code] = float(i[2].text.strip())
+                    series.capacity = float(i[6].text.strip())
                 except AttributeError:
                     pass
             return series

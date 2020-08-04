@@ -80,8 +80,8 @@ class Inventory(ApiBiuld):
         for station in root.iter('Table'):
             code = station.find('Codigo').text
             stations.at[code, 'Name'] = station.find('Nome').text
-            stations.at[code, 'Latitude'] = float(station.find('Latitude').text)
-            stations.at[code, 'Longitude'] = float(station.find('Longitude').text)
+            stations.at[code, 'Latitude'] = station.find('Latitude').text
+            stations.at[code, 'Longitude'] = station.find('Longitude').text
             stations.at[code, 'Watersheds'] = station.find('SubBaciaCodigo').text
             stations.at[code, 'Type'] = station.find('TipoEstacao').text
             stations.at[code, 'City'] = station.find('MunicipioCodigo').text
