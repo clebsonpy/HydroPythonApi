@@ -1,4 +1,4 @@
 from ..hidro.basin import BasinApi
-from ..hidro.inventory import Inventory
+from ..hidro.stations import Stations
 
-__init__ = ["BasinApi", "Inventory"]
+__init__ = ["BasinApi", "Stations"]

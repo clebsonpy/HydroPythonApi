@@ -1,7 +1,8 @@
 import pandas as pd
+
 from ..api_biuld import ApiBiuld
-from ..hidro.serie_temporal import SerieTemporal
 from ..hidro.basin import BasinApi
+from ..hidro.serie_temporal import SerieTemporal
 
 
 class _Station:
@@ -12,7 +13,7 @@ class _Station:
         self.latitude = lat
         self.longitude = lon
         self.city = city
-        self.watersheds = BasinApi().get(code_watersheds=watersheds).watersheds[watersheds]
+        self.watersheds = BasinApi(code_watersheds=watersheds).watersheds(code=watersheds)
         self.responsible = responsible
         self.operator = operator
         self.area = area
@@ -34,25 +35,14 @@ class _Station:
                f"\nResponsible: {self.responsible}\nOperator: {self.operator}\nWatersheds: {self.watersheds.name}"
 
 
-class Inventory(ApiBiuld):
-
+class Stations(ApiBiuld):
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroInventario'
     params = {'codEstDE': '', 'codEstATE': '', 'tpEst': '', 'nmEst': '', 'nmRio': '', 'codSubBacia': '', 'codBacia': '',
               'nmMunicipio': '', 'nmEstado': '', 'sgResp': '', 'sgOper': '', 'telemetrica': ''}
 
-    def __init__(self):
-        self.__stations = {}
-
-    def __getitem__(self, item):
-        if item not in self.__stations:
-            station = self.get(code_start=item)
-            self.__stations[item] = station
-            return self.__stations[item]
-        return self.get(code_start=item)
-
-    def get(self, code_start: str = '', code_end: str = '', type_station: str = '', name: str = '',
-            name_river: str = '', code_watersheds: str = '', code_basin: str = '', name_city: str = '',
-            name_state: str = '', responsible: str = '', operator: str = '', telemetrica: bool = False):
+    def __init__(self, code_start: str = '', code_end: str = '', type_station: str = '', name: str = '',
+                 name_river: str = '', code_watersheds: str = '', code_basin: str = '', name_city: str = '',
+                 name_state: str = '', responsible: str = '', operator: str = '', telemetrica: bool = False):
         """
         :param code_start: Código de 8 dígitos da estação - INICIAL (Ex.: 00047000)
         :param code_end: Código de 8 dígitos da estação - FINAL (Ex.: 90300000)
@@ -66,39 +56,51 @@ class Inventory(ApiBiuld):
         :param responsible: Sigla do Responsável pela estação (Ex.: ANA)
         :param operator: Sigla da Operadora da estação (Ex.: CPRM)
         :param telemetrica: (Ex: 1-SIM ou 0-NÃO)
-        :return: pd.DataFrame or Station object
+        :return: self
         """
+
         kwargs = {'codEstDE': code_start, 'codEstATE': code_end, 'tpEst': type_station, 'nmEst': name,
                   'nmRio': name_river, 'codSubBacia': code_watersheds, 'codBacia': code_basin, 'nmMunicipio': name_city,
                   'nmEstado': name_state, 'sgResp': responsible, 'sgOper': operator,
                   'telemetrica': {True: 1, False: 0}[telemetrica]}
 
-        super().get(**kwargs)
-
+        super()._get(**kwargs)
         self.params.update(kwargs)
-        print(self.params)
         root = self.requests()
 
-        stations = pd.DataFrame(columns=[
-            'Name', 'Latitude', 'Longitude', 'Watersheds', 'Type', 'City', 'Responsible', 'Operator', 'Area'
-        ])
+        self.__stations = {}
+        self.__df_stations = pd.DataFrame(columns=[
+            'Name', 'Latitude', 'Longitude', 'Watersheds', 'Type', 'City', 'Responsible', 'Operator', 'Area'])
+        self._get(root)
+
+    def __str__(self):
+        return self.__df_stations.__str__()
+
+    def __getitem__(self, item) -> _Station:
+        """
+        :param item: Código de 8 dígitos da estação - INICIAL (Ex.: 00047000)
+        :return:
+        """
+        return self.__stations[item]
+
+    def _get(self, root):
+
         for station in root.iter('Table'):
             code = station.find('Codigo').text
-            stations.at[code, 'Name'] = station.find('Nome').text
-            stations.at[code, 'Latitude'] = station.find('Latitude').text
-            stations.at[code, 'Longitude'] = station.find('Longitude').text
-            stations.at[code, 'Watersheds'] = station.find('SubBaciaCodigo').text
-            stations.at[code, 'Type'] = station.find('TipoEstacao').text
-            stations.at[code, 'City'] = station.find('MunicipioCodigo').text
-            stations.at[code, 'Responsible'] = station.find('ResponsavelCodigo').text
-            stations.at[code, 'Operator'] = station.find('OperadoraCodigo').text
-            stations.at[code, 'Area'] = station.find('AreaDrenagem').text
+            self.__df_stations.at[code, 'Name'] = station.find('Nome').text
+            self.__df_stations.at[code, 'Latitude'] = station.find('Latitude').text
+            self.__df_stations.at[code, 'Longitude'] = station.find('Longitude').text
+            self.__df_stations.at[code, 'Watersheds'] = station.find('SubBaciaCodigo').text
+            self.__df_stations.at[code, 'Type'] = station.find('TipoEstacao').text
+            self.__df_stations.at[code, 'City'] = station.find('MunicipioCodigo').text
+            self.__df_stations.at[code, 'Responsible'] = station.find('ResponsavelCodigo').text
+            self.__df_stations.at[code, 'Operator'] = station.find('OperadoraCodigo').text
+            self.__df_stations.at[code, 'Area'] = station.find('AreaDrenagem').text
 
-            station = _Station(code=stations.index.values[0], name=stations['Name'].values[0],
-                               lat=stations["Latitude"].values[0], lon=stations["Longitude"].values[0],
-                               watersheds=stations["Watersheds"].values[0], type_station=stations["Type"].values[0],
-                               city=stations["City"].values[0], responsible=stations["Responsible"].values[0],
-                               operator=stations["Operator"].values[0], area=stations["Area"].values[0])
+            obj = _Station(code=code, name=station.find('Nome').text, lat=station.find('Latitude').text,
+                           lon=station.find('Longitude').text, watersheds=station.find('SubBaciaCodigo').text,
+                           type_station=station.find('TipoEstacao').text, city=station.find('MunicipioCodigo').text,
+                           responsible=station.find('ResponsavelCodigo').text,
+                           operator=station.find('OperadoraCodigo').text, area=station.find('AreaDrenagem').text)
 
-            self.__stations[station.code] = station
-        return self
+            self.__stations[obj.code] = obj

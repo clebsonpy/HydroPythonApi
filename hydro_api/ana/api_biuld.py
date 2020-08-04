@@ -25,7 +25,7 @@ class ApiBiuld(metaclass=ABCMeta):
         return root
 
     @abstractmethod
-    def get(self, **kwargs):
+    def _get(self, **kwargs):
         if len(kwargs) > 0:
             for i in kwargs:
                 if i in self.params:

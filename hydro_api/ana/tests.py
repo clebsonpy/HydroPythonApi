@@ -2,21 +2,21 @@ import pandas as pd
 
 from unittest import TestCase
 from .sar import Reservoirs
+from .hidro import Stations
 
 
 class TestApi(TestCase):
 
-    # def test_get_data_from_ana_hydro(self):
-    #     flow = Flow(station="49330000", source="ANA")
-    #     print(flow)
-    #     print(flow.station)
-    #
-    # def test_get_data_from_ana_hydro_list(self):
-    #     flow = Flow(station=["49330000", "49370000"], source="ANA")
-    #     print(flow)
-    #     print(flow.station)
+    def test_get_stations(self):
+        stations = Stations(name_city="RECIFE")
+        print(stations)
 
-    def test_get_data_from_ana_sar(self):
+    def test_get_data_from_ana_hydro(self):
+        stations = Stations(name_city="RECIFE")
+        stations_recife = stations
+        print(stations_recife["39098600"])
+
+    def test_get_data_from_sar(self):
         reservoir = Reservoirs()["19086"]
         aflue = reservoir.series_temporal.affluence
         deflu = reservoir.series_temporal.flow
@@ -29,8 +29,3 @@ class TestApi(TestCase):
         for i in data_obs.index:
             self.assertEqual(data_obs["D19086"][i], deflu["19086"][i])
             self.assertEqual(data_obs["A19086"][i], aflue["19086"][i])
-
-    # def test_get_data_from_ana_sar_list(self):
-    #     flow = Flow(station=["19086", "19002"], source="SAR")
-    #     print(flow)
-    #     print(flow.station)

@@ -38,27 +38,38 @@ class BasinApi(ApiBiuld):
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroBaciaSubBacia'
     params = {'codBacia': '', 'codSubBacia': ''}
 
-    def get(self, code_basin='', code_watersheds=''):
+    def __init__(self,  code_basin='', code_watersheds=''):
         kwargs = {'codBacia': code_basin, 'codSubBacia': code_watersheds}
-
-        super().get(**kwargs)
+        super()._get(**kwargs)
 
         self.params.update(kwargs)
+        self.basins = pd.DataFrame(columns=['Name'])
+        self.subbasins = pd.DataFrame(columns=['Name'])
+        self.__watersheds = {}
+        self.__basin = {}
         root = self.requests()
+        self._get(root)
 
-        basins = pd.DataFrame(columns=['Name'])
-        subbasins = pd.DataFrame(columns=['Name'])
+    def __getitem__(self, item):
+        return self.__basin[item]
 
+    def watersheds(self, code):
+        return self.subbasins.loc[code]
+
+    def _get(self, root):
+
+        basin_code = None
         for basin in root.iter('Table'):
             code_basin = basin.find('codBacia').text
-            basins.at[code_basin, 'Name'] = basin.find('nmBacia').text
+            self.basins.at[code_basin, 'Name'] = basin.find('nmBacia').text
             code_subbasin = basin.find('codSubBacia').text
-            subbasins.at[code_subbasin, 'Name'] = basin.find('nmSubBacia').text
+            self.subbasins.at[code_subbasin, 'Name'] = basin.find('nmSubBacia').text
 
-        if len(basins) == 1:
-            basin = _Basin(name=basins["Name"].values[0], code=basins.index.values[0])
-            for i in subbasins.index:
-                watersheds = _Watersheds(name=subbasins["Name"][i], code=i)
-                basin.watersheds = watersheds
-            return basin
-        return basins, subbasins
+            if basin_code == code_basin:
+                for i in self.subbasins.index:
+                    self.__watersheds[i] = _Watersheds(name=self.subbasins["Name"][i], code=i)
+                    basin[code_basin].watersheds = self.__watersheds[i]
+            else:
+                self.__basin[self.basins.index.values[0]] = _Basin(name=self.basins["Name"].values[0],
+                                                                   code=self.basins.index.values[0])
+                basin_code = code_basin
