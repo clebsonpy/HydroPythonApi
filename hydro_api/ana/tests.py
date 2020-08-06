@@ -7,14 +7,23 @@ from .hidro import Stations
 
 class TestApi(TestCase):
 
-    def test_get_stations(self):
-        stations = Stations(name_city="RECIFE")
-        print(stations)
+    def test_get_stations_by_city(self):
+        recife = Stations(name_city="RECIFE")
+        piranhas = Stations(name_city="PIRANHAS")
+        print(recife["39098600"])
+        print(piranhas["49330000"])
 
-    def test_get_data_from_ana_hydro(self):
+    def test_get_data_from_ana_hydro_flow_height(self):
+        stations = Stations(code_start="49330000")
+        stations_xingo = stations
+        print(stations_xingo["49330000"].series_temporal(type_data='3'))
+        print(stations_xingo["49330000"].series_temporal(type_data='1'))
+
+    def test_get_from_ana_hydro_rainfall(self):
         stations = Stations(name_city="RECIFE")
         stations_recife = stations
-        print(stations_recife["39098600"])
+        print(stations_recife["834003"].type_station)
+        print(stations_recife["834003"].series_temporal(type_data='2'))
 
     def test_get_data_from_sar(self):
         reservoir = Reservoirs()["19086"]

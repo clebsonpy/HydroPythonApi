@@ -19,7 +19,7 @@ class Reservoir:
     @property
     def series_temporal(self):
         if self.__series_temporal is None:
-            self.__series_temporal = SerieTemporal().get(code=self.code, tag=self.tag)
+            self.__series_temporal = SerieTemporal(code=self.code, tag=self.tag).data
         return self.__series_temporal
 
 
@@ -28,41 +28,29 @@ class Reservoirs(ApiBiuld):
            "http://sarws.ana.gov.br/SarWebService.asmx/ReservatoriosNordeste"]
     params = {}
 
-    def __init__(self):
-        self._reservoirs = self.get()
+    def __init__(self, code=None):
+        self.__df_reservoir = pd.DataFrame(columns=["Code", "Name", "City", "State", "tag"])
         self.__reservoir = {}
+        root = self.requests()
+        self._get(root=root)
 
     def __str__(self):
-        return self._reservoirs.__str__()
+        return self.__df_reservoir.__str__()
 
     def __getitem__(self, item):
-        if item in self.__reservoir:
-            return self.__reservoir[item]
-        return self.get(code=item)
+        return self.__reservoir[item]
 
-    def get_reservoirs(self):
-        return self._reservoirs
-
-    def get(self, code=None):
-        if code is not None:
-            reservoir = self._reservoirs.loc[self._reservoirs["Code"] == code]
-            reser = Reservoir(code=reservoir["Code"].values[0], name=reservoir["Name"].values[0],
-                              city=reservoir["City"].values[0], state=reservoir["State"].values[0],
-                              tag=reservoir["tag"].values[0])
-
-            self.__reservoir[code] = reser
-            return reser
-
-        root = self.requests()
-
-        reservoir = {"Code": [], "Name": [], "City": [], "State": [], "tag": []}
+    def _get(self, root):
 
         for i in root:
             for j in i:
-                reservoir["Code"].append(f"{j[0].text.strip()}")
-                reservoir["Name"].append(f"{j[1].text.strip()}")
-                reservoir["City"].append(f"{j[2].text.strip()}")
-                reservoir["State"].append(f"{j[3].text.strip()}")
-                reservoir["tag"].append(f"{j.tag}")
+                code = f"{j[0].text.strip()}"
+                self.__df_reservoir.at[code, "Name"] = f"{j[1].text.strip()}"
+                self.__df_reservoir.at[code, "City"] = f"{j[2].text.strip()}"
+                self.__df_reservoir.at[code, "State"] = f"{j[3].text.strip()}"
+                self.__df_reservoir.at[code, "tag"] = f"{j.tag}"
 
-        return pd.DataFrame(reservoir)
+                reservoir = Reservoir(code=f"{j[0].text.strip()}", name=f"{j[1].text.strip()}", tag=f"{j.tag}",
+                                      city=f"{j[2].text.strip()}", state=f"{j[3].text.strip()}")
+
+                self.__reservoir[reservoir.code] = reservoir

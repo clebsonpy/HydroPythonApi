@@ -20,14 +20,14 @@ class _Station:
         self.type_station = type_station
         self.__series_temporal = None
 
-    def series_temporal(self, type_data=None):
+    def series_temporal(self, type_data: str = None):
         if self.type_station == "1":
             if type_data == "3":
-                self.__series_temporal = SerieTemporal().get(code=self.code, type='3')
+                self.__series_temporal = SerieTemporal(code=self.code, type_data='3').data
             elif type_data == "1":
-                self.__series_temporal = SerieTemporal().get(code=self.code, type='1')
+                self.__series_temporal = SerieTemporal(code=self.code, type_data='1').data
         elif self.type_station == "2":
-            self.__series_temporal = SerieTemporal().get(code=self.code, type='2')
+            self.__series_temporal = SerieTemporal(code=self.code, type_data='2').data
         return self.__series_temporal
 
     def __str__(self):

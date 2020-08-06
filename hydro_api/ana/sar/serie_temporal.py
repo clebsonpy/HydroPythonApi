@@ -27,14 +27,16 @@ class SerieTemporal(ApiBiuld):
 
     params = {'CodigoReservatorio': '', 'DataInicial': '', 'DataFinal': ''}
 
-    def get(self, code, date_start='01/01/1900', date_end=datetime.now().date().strftime("%d/%m/%Y"), tag=None):
+    def __init__(self, code, date_start='01/01/1900', date_end=datetime.now().date().strftime("%d/%m/%Y"), tag=None):
         kwargs = {'CodigoReservatorio': code, 'DataInicial': date_start, 'DataFinal': date_end}
-
-        super().get()
+        self.tag = tag
+        super()._get(**kwargs)
         self.params.update(kwargs)
-
         root = self.requests()
-        if tag == "{http://sarws.ana.gov.br}ReservatorioSIN":
+        self.data = self._get(root=root)
+
+    def _get(self, root):
+        if self.tag == "{http://sarws.ana.gov.br}ReservatorioSIN":
             series = SerieTemporalNis()
             for i in root[0]:
                 try:
@@ -47,7 +49,7 @@ class SerieTemporal(ApiBiuld):
                 except AttributeError:
                     pass
             return series
-        elif tag == "{http://sarws.ana.gov.br}ReservatorioNordeste":
+        elif self.tag == "{http://sarws.ana.gov.br}ReservatorioNordeste":
             series = SerieTemporalNor()
             for i in root[1]:
                 try:
