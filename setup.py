@@ -32,6 +32,6 @@ setup(
     author_email='clebson2007.farias@gmail.com',
     keywords='ana sar brazil python api',
     description='Developed for hydrological studies',
-    install_requires=['defusedxml==0.6.*', 'pandas==1.1.*', 'requests==2.18.*', 'xlrd==1.1.*'],
+    install_requires=['defusedxml==0.6.*', 'pandas==1.1.*', 'requests>=2.18,<2.21', 'xlrd==1.1.*'],
     packages=['hydro_api'],
 )
