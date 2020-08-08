@@ -13,6 +13,11 @@ class TestApi(TestCase):
         print(recife["39098600"])
         print(piranhas["49330000"])
 
+    def test_get_data_from_ana_hydro_flow_height_none(self):
+        stations = Stations(code_start="49480050")
+        stations_xingo = stations
+        print(stations_xingo["49480050"])
+
     def test_get_data_from_ana_hydro_flow_height(self):
         stations = Stations(code_start="49330000")
         stations_xingo = stations

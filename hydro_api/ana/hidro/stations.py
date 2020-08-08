@@ -81,7 +81,8 @@ class Stations(ApiBiuld):
         :param item: Código de 8 dígitos da estação - INICIAL (Ex.: 00047000)
         :return:
         """
-        return self.__stations[item]
+        if item in self.__stations:
+            return self.__stations[item]
 
     def _get(self, root):
 
