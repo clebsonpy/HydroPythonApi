@@ -85,8 +85,11 @@ class Stations(ApiBiuld):
 
     def _get(self, root):
 
+        print(self.params)
+
         for station in root.iter('Table'):
             code = station.find('Codigo').text
+            print(code)
             self.__df_stations.at[code, 'Name'] = station.find('Nome').text
             self.__df_stations.at[code, 'Latitude'] = station.find('Latitude').text
             self.__df_stations.at[code, 'Longitude'] = station.find('Longitude').text
@@ -102,5 +105,4 @@ class Stations(ApiBiuld):
                            type_station=station.find('TipoEstacao').text, city=station.find('MunicipioCodigo').text,
                            responsible=station.find('ResponsavelCodigo').text,
                            operator=station.find('OperadoraCodigo').text, area=station.find('AreaDrenagem').text)
-
             self.__stations[obj.code] = obj

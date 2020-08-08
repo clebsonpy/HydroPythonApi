@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 import xml.etree.ElementTree as ET
 import requests
+# import xmltodict
 
 
 class ApiBiuld(metaclass=ABCMeta):
@@ -18,7 +19,8 @@ class ApiBiuld(metaclass=ABCMeta):
             response = requests.get(self.url, self.params)
             if not response:
                 raise ConnectionError
-
+            # dic = xmltodict.parse(xml_input=response.content)['DataSet']['diffgr:diffgram']['Estacoes']['Table']
+            # print(dict(dic[0]))
             tree = ET.ElementTree(ET.fromstring(response.content))
             root = tree.getroot()
 
