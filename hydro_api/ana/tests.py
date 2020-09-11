@@ -3,6 +3,7 @@ import pandas as pd
 from unittest import TestCase
 from .sar import Reservoirs
 from .hidro import Stations
+from .hidro.serie_temporal import SerieTemporal
 
 
 class TestApi(TestCase):
@@ -13,10 +14,14 @@ class TestApi(TestCase):
         print(recife["39098600"])
         print(piranhas["49330000"])
 
+    def test_get_data_from_ana_hydro_serie_temporal(self):
+        serie = SerieTemporal(code="01036007", type_data='2')
+        print(serie.data)
+
     def test_get_data_from_ana_hydro_flow_height_none(self):
-        stations = Stations(code_start="49480050")
+        stations = Stations(code_start="49330000")
         stations_xingo = stations
-        print(stations_xingo["49480050"])
+        print(stations_xingo["49330000"])
 
     def test_get_data_from_ana_hydro_flow_height(self):
         stations = Stations(code_start="49330000")

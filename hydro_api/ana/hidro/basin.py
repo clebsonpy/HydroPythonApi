@@ -64,11 +64,11 @@ class BasinApi(ApiBiuld):
             self.basins.at[code_basin, 'Name'] = basin.find('nmBacia').text
             code_subbasin = basin.find('codSubBacia').text
             self.subbasins.at[code_subbasin, 'Name'] = basin.find('nmSubBacia').text
-
             if basin_code == code_basin:
                 for i in self.subbasins.index:
                     self.__watersheds[i] = _Watersheds(name=self.subbasins["Name"][i], code=i)
-                    basin[code_basin].watersheds = self.__watersheds[i]
+
+                    self.__basin[code_basin].watersheds = self.__watersheds[i]
             else:
                 self.__basin[self.basins.index.values[0]] = _Basin(name=self.basins["Name"].values[0],
                                                                    code=self.basins.index.values[0])

@@ -86,11 +86,9 @@ class Stations(ApiBiuld):
 
     def _get(self, root):
 
-        print(self.params)
-
         for station in root.iter('Table'):
+            print(station.find('AreaDrenagem').text)
             code = station.find('Codigo').text
-            print(code)
             self.__df_stations.at[code, 'Name'] = station.find('Nome').text
             self.__df_stations.at[code, 'Latitude'] = station.find('Latitude').text
             self.__df_stations.at[code, 'Longitude'] = station.find('Longitude').text
