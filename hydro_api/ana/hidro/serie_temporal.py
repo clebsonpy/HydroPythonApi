@@ -8,7 +8,7 @@ class SerieTemporal(ApiBiuld):
     params = {'codEstacao': '', 'dataInicio': '', 'dataFim': '', 'tipoDados': '', 'nivelConsistencia': ''}
     typesData = {'3': ['Vazao{:02}'], '2': ['Chuva{:02}'], '1': ['Cota{:02}']}
 
-    def __init__(self, code: str, type_data: str, date_start: str = '', date_end: str = ''):
+    def __init__(self, code: str, type_data: str, date_start: str = '', date_end: str = '', consistence: str = ''):
         """
             :param code:
             :param type_data: '3' - Flow; '2' - Rainfall; '1' - Height
@@ -16,7 +16,8 @@ class SerieTemporal(ApiBiuld):
             :param date_end:
             :return: pd.DataFrame(index='Date, Consistence', columns=['Code'])
         """
-        kwargs = {'codEstacao': code, 'dataInicio': date_start, 'dataFim': date_end, 'tipoDados': type_data}
+        kwargs = {'codEstacao': code, 'dataInicio': date_start, 'dataFim': date_end, 'tipoDados': type_data,
+                  'nivelConsistencia': consistence}
 
         super()._get(**kwargs)
 

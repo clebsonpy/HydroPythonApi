@@ -42,7 +42,7 @@ class Stations(ApiBiuld):
 
     def __init__(self, code_start: str = '', code_end: str = '', type_station: str = '', name: str = '',
                  name_river: str = '', code_watersheds: str = '', code_basin: str = '', name_city: str = '',
-                 name_state: str = '', responsible: str = '', operator: str = '', telemetrica: bool = False):
+                 name_state: str = '', responsible: str = '', operator: str = '', telemetrica: str = ''):
         """
         :param code_start: Código de 8 dígitos da estação - INICIAL (Ex.: 00047000)
         :param code_end: Código de 8 dígitos da estação - FINAL (Ex.: 90300000)
@@ -62,7 +62,7 @@ class Stations(ApiBiuld):
         kwargs = {'codEstDE': code_start, 'codEstATE': code_end, 'tpEst': type_station, 'nmEst': name,
                   'nmRio': name_river, 'codSubBacia': code_watersheds, 'codBacia': code_basin, 'nmMunicipio': name_city,
                   'nmEstado': name_state, 'sgResp': responsible, 'sgOper': operator,
-                  'telemetrica': {True: 1, False: 0}[telemetrica]}
+                  'telemetrica': ''}
 
         super()._get(**kwargs)
         self.params.update(kwargs)
@@ -85,9 +85,11 @@ class Stations(ApiBiuld):
             return self.__stations[item]
 
     def _get(self, root):
+        for i in root.iter():
+            print(i)
 
         for station in root.iter('Table'):
-            print(station.find('AreaDrenagem').text)
+            print(station)
             code = station.find('Codigo').text
             self.__df_stations.at[code, 'Name'] = station.find('Nome').text
             self.__df_stations.at[code, 'Latitude'] = station.find('Latitude').text
