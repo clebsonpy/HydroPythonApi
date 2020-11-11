@@ -58,5 +58,5 @@ class SerieTemporal(ApiBiuld):
         try:
             data_flow = pd.DataFrame(pd.concat(series))
         except ValueError:
-            data_flow = pd.DataFrame(pd.Series(name=self.params['codEstacao'], dtype='float64'))
+            data_flow = pd.DataFrame(pd.Series(name=self.params['codEstacao'].zfill(8), dtype='float64'))
         return data_flow
