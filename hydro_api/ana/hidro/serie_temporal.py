@@ -1,3 +1,7 @@
+from datetime import datetime, timezone
+
+import pytz
+
 import pandas as pd
 import calendar as ca
 from ..api_biuld import ApiBiuld
@@ -38,7 +42,7 @@ class SerieTemporal(ApiBiuld):
             flow = []
             code = month.find('EstacaoCodigo').text
             date_str = month.find('DataHora').text
-            date = pd.to_datetime(date_str, dayfirst=True)
+            date = pd.to_datetime(date_str, dayfirst=True).tz_localize(pytz.timezone('Etc/GMT-3'))
             days = ca.monthrange(date.year, date.month)[1]
             consistence = month.find('NivelConsistencia').text
             if date.day == 1:
@@ -57,6 +61,7 @@ class SerieTemporal(ApiBiuld):
             series.append(pd.Series(flow, index=date_idx, name=code.zfill(8), dtype='float64'))
         try:
             data_flow = pd.DataFrame(pd.concat(series))
+            # data_flow = data_flow.tz_localize('UTC')
         except ValueError:
             data_flow = pd.DataFrame(pd.Series(name=self.params['codEstacao'].zfill(8), dtype='float64'))
         return data_flow
