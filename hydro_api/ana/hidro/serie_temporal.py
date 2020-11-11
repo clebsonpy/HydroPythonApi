@@ -54,7 +54,7 @@ class SerieTemporal(ApiBiuld):
                     flow.append(month.find(value).text)
                 except AttributeError:
                     flow.append(None)
-            series.append(pd.Series(flow, index=date_idx, name=code, dtype='float64'))
+            series.append(pd.Series(flow, index=date_idx, name=code.zfill(8), dtype='float64'))
         try:
             data_flow = pd.DataFrame(pd.concat(series))
         except ValueError:

@@ -11,7 +11,7 @@ long_description = '{}'.format(read('README.md'))
 
 setup(
     name='hydro-python-api',
-    version='1.1.4',
+    version='1.1.5',
     include_package_data=True,
     pacotes=find_packages('src'),
     long_description=long_description,

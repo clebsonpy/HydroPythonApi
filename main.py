@@ -7,5 +7,5 @@ from hydro_api.ana.hidro import Stations, SerieTemporal
 # print(reservoir.series_temporal.flow)
 # print(reservoir.series_temporal.affluence)
 
-station = SerieTemporal(code='39431000', type_data='3')
+station = SerieTemporal(code='00835026', type_data='2')
 print(station.data)
