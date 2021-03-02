@@ -65,7 +65,6 @@ class SerieTemporal(ApiBiuld):
             series.append(pd.Series(flow, index=date_idx, name=code.zfill(8), dtype='float64'))
         try:
             data_flow = pd.DataFrame(pd.concat(series))
-            # data_flow = data_flow.tz_localize('UTC')
         except ValueError:
             data_flow = pd.DataFrame(pd.Series(name=self.params['codEstacao'].zfill(8), dtype='float64'))
         return data_flow
