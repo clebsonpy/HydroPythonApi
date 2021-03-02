@@ -20,14 +20,14 @@ class _Station:
         self.type_station = type_station
         self.__series_temporal = None
 
-    def series_temporal(self, type_data: str = None):
+    def series_temporal(self, type_data: str = None, tz: str = None):
         if self.type_station == "1":
             if type_data == "3":
-                self.__series_temporal = SerieTemporal(code=self.code, type_data='3').data
+                self.__series_temporal = SerieTemporal(code=self.code, type_data='3', tz=tz).data
             elif type_data == "1":
-                self.__series_temporal = SerieTemporal(code=self.code, type_data='1').data
+                self.__series_temporal = SerieTemporal(code=self.code, type_data='1', tz=tz).data
         elif self.type_station == "2":
-            self.__series_temporal = SerieTemporal(code=self.code, type_data='2').data
+            self.__series_temporal = SerieTemporal(code=self.code, type_data='2', tz=tz).data
         return self.__series_temporal
 
     def __str__(self):
@@ -85,11 +85,8 @@ class Stations(ApiBiuld):
             return self.__stations[item]
 
     def _get(self, root):
-        for i in root.iter():
-            print(i)
 
         for station in root.iter('Table'):
-            print(station)
             code = station.find('Codigo').text
             self.__df_stations.at[code, 'Name'] = station.find('Nome').text
             self.__df_stations.at[code, 'Latitude'] = station.find('Latitude').text

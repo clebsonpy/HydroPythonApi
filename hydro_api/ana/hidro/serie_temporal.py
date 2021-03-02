@@ -12,7 +12,8 @@ class SerieTemporal(ApiBiuld):
     params = {'codEstacao': '', 'dataInicio': '', 'dataFim': '', 'tipoDados': '', 'nivelConsistencia': ''}
     typesData = {'3': ['Vazao{:02}'], '2': ['Chuva{:02}'], '1': ['Cota{:02}']}
 
-    def __init__(self, code: str, type_data: str, date_start: str = '', date_end: str = '', consistence: str = ''):
+    def __init__(self, code: str, type_data: str, date_start: str = '', date_end: str = '', consistence: str = '',
+                 tz: str = None):
         """
             :param code:
             :param type_data: '3' - Flow; '2' - Rainfall; '1' - Height
@@ -27,7 +28,7 @@ class SerieTemporal(ApiBiuld):
 
         self.params.update(kwargs)
         root = self.requests()
-        self.data = self._get(root=root)
+        self.data = self._get(root=root, tz=tz)
 
     def __multIndex(self, date, n_days, consistence):
         list_date = pd.date_range(date, periods=n_days, freq="D")
@@ -35,14 +36,17 @@ class SerieTemporal(ApiBiuld):
         index_multi = list(zip(*[list_date, list_cons]))
         return pd.MultiIndex.from_tuples(index_multi, names=["Date", "Consistence"])
 
-    def _get(self, root):
+    def _get(self, root, tz):
 
         series = []
         for month in root.iter('SerieHistorica'):
             flow = []
             code = month.find('EstacaoCodigo').text
             date_str = month.find('DataHora').text
-            date = pd.to_datetime(date_str, dayfirst=True).tz_localize(pytz.timezone('Etc/GMT-3'))
+            if tz is None:
+                date = pd.to_datetime(date_str, dayfirst=True)
+            else:
+                date = pd.to_datetime(date_str, dayfirst=True).tz_localize(pytz.timezone(tz))
             days = ca.monthrange(date.year, date.month)[1]
             consistence = month.find('NivelConsistencia').text
             if date.day == 1:

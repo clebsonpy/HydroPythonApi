@@ -26,8 +26,8 @@ class TestApi(TestCase):
     def test_get_data_from_ana_hydro_flow_height(self):
         stations = Stations(code_start="49330000")
         stations_xingo = stations
-        print(stations_xingo["49330000"].series_temporal(type_data='3'))
-        print(stations_xingo["49330000"].series_temporal(type_data='1'))
+        print(stations_xingo["49330000"].series_temporal(type_data='3')) #tz='Etc/GMT-3'
+        print(stations_xingo["49330000"].series_temporal(type_data='1')) #tz='Etc/GMT-3'
 
     def test_get_from_ana_hydro_rainfall(self):
         stations = Stations(name_city="RECIFE")
