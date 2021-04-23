@@ -1,4 +1,4 @@
 defusedxml==0.6.0
-pandas
+pandas=>0.23.0
 requests==2.20.0
 xlrd==1.1.*
