@@ -84,6 +84,10 @@ class Stations(ApiBiuld):
         if item in self.__stations:
             return self.__stations[item]
 
+    @property
+    def stations_code(self):
+        return self.__stations.keys()
+
     def _get(self, root):
 
         for station in root.iter('Table'):

@@ -48,3 +48,7 @@ class TestApi(TestCase):
         for i in data_obs.index:
             self.assertEqual(data_obs["D19086"][i], deflu["19086"][i])
             self.assertEqual(data_obs["A19086"][i], aflue["19086"][i])
+
+    def test_get_columns(self):
+        recife = Stations(name_city="RECIFE")
+        self.assertEqual(len(recife.stations_code), 43)
