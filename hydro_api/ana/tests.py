@@ -4,6 +4,7 @@ from unittest import TestCase
 from .sar import Reservoirs
 from .hidro import Stations
 from .hidro.serie_temporal import SerieTemporal
+from .hidro import EntityApi
 
 
 class TestApi(TestCase):
@@ -52,3 +53,7 @@ class TestApi(TestCase):
     def test_get_columns(self):
         recife = Stations(name_city="RECIFE")
         self.assertEqual(len(recife.stations_code), 43)
+
+    def test_get_entity(self):
+        entity = EntityApi(code_entity=30)
+        print(entity)
