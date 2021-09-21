@@ -10,13 +10,13 @@ class ApiBiuld(metaclass=ABCMeta):
         if type(self.url) is list:
             root = []
             for url in self.url:
-                response = requests.get(url, self.params)
+                response = requests.get(url, self.params, timeout=60)
                 if not response:
                     raise ConnectionError
                 tree = ET.ElementTree(ET.fromstring(response.content))
                 root.append(tree.getroot())
         else:
-            response = requests.get(self.url, self.params)
+            response = requests.get(self.url, self.params, timeout=60)
             if not response:
                 raise ConnectionError
             # dic = xmltodict.parse(xml_input=response.content)['DataSet']['diffgr:diffgram']['Estacoes']['Table']
