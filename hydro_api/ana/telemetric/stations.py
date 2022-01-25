@@ -24,7 +24,7 @@ class _Station:
 
     def __str__(self):
         return f"Code: {self.code}\nName: {self.name}\nLat: {self.latitude}\nLon: {self.longitude}" \
-               f"\nResponsible: {self.responsible}\nOperator: {self.operator}\nWatersheds: {self.watersheds.name}"
+               f"\nResponsible: {self.responsible}\nOperator: {self.operator}\nWatersheds: {self.watersheds}"
 
 
 class Stations(ApiBiuld):
