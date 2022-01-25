@@ -1,3 +1,3 @@
 from ..sar.reservoir import Reservoirs
 
-__init__ = ["Reservoirs"]
+__all__ = ["Reservoirs"]

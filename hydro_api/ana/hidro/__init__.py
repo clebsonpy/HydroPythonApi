@@ -3,4 +3,4 @@ from ..hidro.stations import Stations
 from ..hidro.serie_temporal import SerieTemporal
 from ..hidro.entities import EntityApi
 
-__init__ = ["BasinApi", "Stations", "SerieTemporal", "EntityApi"]
+__all__ = ["BasinApi", "Stations", "SerieTemporal", "EntityApi"]
