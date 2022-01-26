@@ -15,8 +15,6 @@ from hydro_api.ana.telemetric import Stations, SerieTemporal
 # print(stations.data)
 
 stations = Stations()
-# print(stations)
-# dataframe = stations.dataframe()
 alagoas = stations.get_stations(state='AL')
 print(alagoas)
 # print(dataframe['City'].apply(split('-'), axis=1))
