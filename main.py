@@ -9,7 +9,7 @@ from hydro_api.ana.telemetric import Stations, SerieTemporal
 # print(reservoir.series_temporal.affluence)
 
 # station = SerieTemporal(code='00835026', type_data='2')
-stations = SerieTemporal(code='10100000', start_date='20/01/2022', end_date='24/01/2022')
+stations = SerieTemporal(code='1448000', start_date='20/01/2022', end_date='24/01/2022')
 print(stations.data)
 
 # stations = Stations()
