@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+from posixpath import split
 from hydro_api.ana.sar import Reservoirs
 # from hydro_api.ana.hidro import Stations, SerieTemporal, EntityApi
 from hydro_api.ana.telemetric import Stations, SerieTemporal
@@ -9,8 +11,12 @@ from hydro_api.ana.telemetric import Stations, SerieTemporal
 # print(reservoir.series_temporal.affluence)
 
 # station = SerieTemporal(code='00835026', type_data='2')
-stations = SerieTemporal(code='1448000', start_date='20/01/2022', end_date='24/01/2022')
-print(stations.data)
+# stations = SerieTemporal(code='1448000', start_date='20/01/2022', end_date='24/01/2022')
+# print(stations.data)
 
-# stations = Stations()
+stations = Stations()
 # print(stations)
+# dataframe = stations.dataframe()
+alagoas = stations.get_stations(state='AL')
+print(alagoas)
+# print(dataframe['City'].apply(split('-'), axis=1))

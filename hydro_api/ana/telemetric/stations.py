@@ -1,5 +1,7 @@
 import pandas as pd
 
+from hydro_api.ana.hidro import serie_temporal
+
 from ..api_biuld import ApiBiuld
 
 
@@ -57,6 +59,9 @@ class Stations(ApiBiuld):
         if item in self.__stations:
             return self.__stations[item]
 
+    def get_stations(self, state: str):
+        return self.__df_stations.loc[self.__df_stations['State'] == state]
+
     @property
     def stations_code(self):
         return self.__stations.keys()
@@ -72,7 +77,12 @@ class Stations(ApiBiuld):
             self.__df_stations.at[code, 'Watersheds'] = self._get_text(element=station.find('Bacia'))
             self.__df_stations.at[code, 'Catchment'] = self._get_text(element=station.find('SubBacia'))
             self.__df_stations.at[code, 'Status'] = self._get_text(element=station.find('StatusEstacao'))
-            self.__df_stations.at[code, 'City'] = self._get_text(element=station.find('Municipio-UF'))
+            try:
+                self.__df_stations.at[code, 'City'] = self._get_text(element=station.find('Municipio-UF'))
+                self.__df_stations.at[code, 'State'] = self._get_text(element=station.find('Municipio-UF')).split('-')[-1]
+            except AttributeError:
+                self.__df_stations.at[code, 'City'] = self._get_text(element=station.find('Municipio-UF'))
+                self.__df_stations.at[code, 'State'] = self._get_text(element=station.find('Municipio-UF'))
             self.__df_stations.at[code, 'Responsible'] = self._get_text(element=station.find('Responsavel'))
             self.__df_stations.at[code, 'Operator'] = self._get_text(element=station.find('Operadora'))
             self.__df_stations.at[code, 'Origin'] = self._get_text(element=station.find('Origem'))
