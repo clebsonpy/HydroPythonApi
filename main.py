@@ -1,6 +1,6 @@
 from hydro_api.ana.sar import Reservoirs
-from hydro_api.ana.hidro import Stations, SerieTemporal, EntityApi
-from hydro_api.ana.telemetric import Stations
+# from hydro_api.ana.hidro import Stations, SerieTemporal, EntityApi
+from hydro_api.ana.telemetric import Stations, SerieTemporal
 
 # reservoir = Reservoirs()["19086"]
 # print(reservoir.series_temporal.flow.to_csv("sar_manso.csv"))
@@ -9,5 +9,8 @@ from hydro_api.ana.telemetric import Stations
 # print(reservoir.series_temporal.affluence)
 
 # station = SerieTemporal(code='00835026', type_data='2')
-stations = Stations()
-print(stations)
+stations = SerieTemporal(code='10100000', start_date='20/01/2022', end_date='24/01/2022')
+print(stations.data)
+
+# stations = Stations()
+# print(stations)

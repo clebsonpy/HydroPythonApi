@@ -61,41 +61,34 @@ class Stations(ApiBiuld):
     def stations_code(self):
         return self.__stations.keys()
 
-    def __get_text(self, element):
-        try:
-            return element.text
-        
-        except AttributeError:
-            return None
-
     def _get(self, root):
 
         for station in root.iter('Table'):
             code = station.find('CodEstacao').text
-            self.__df_stations.at[code, 'Name'] = self.__get_text(element=station.find('NomeEstacao'))
-            self.__df_stations.at[code, 'Latitude'] = self.__get_text(element=station.find('Latitude'))
-            self.__df_stations.at[code, 'Longitude'] = self.__get_text(element=station.find('Longitude'))
-            self.__df_stations.at[code, 'Altitude'] = self.__get_text(element=station.find('Altitude'))
-            self.__df_stations.at[code, 'Watersheds'] = self.__get_text(element=station.find('Bacia'))
-            self.__df_stations.at[code, 'Catchment'] = self.__get_text(element=station.find('SubBacia'))
-            self.__df_stations.at[code, 'Status'] = self.__get_text(element=station.find('StatusEstacao'))
-            self.__df_stations.at[code, 'City'] = self.__get_text(element=station.find('Municipio-UF'))
-            self.__df_stations.at[code, 'Responsible'] = self.__get_text(element=station.find('Responsavel'))
-            self.__df_stations.at[code, 'Operator'] = self.__get_text(element=station.find('Operadora'))
-            self.__df_stations.at[code, 'Origin'] = self.__get_text(element=station.find('Origem'))
-            self.__df_stations.at[code, 'River'] = self.__get_text(element=station.find('CodRio'))
+            self.__df_stations.at[code, 'Name'] = self._get_text(element=station.find('NomeEstacao'))
+            self.__df_stations.at[code, 'Latitude'] = self._get_text(element=station.find('Latitude'))
+            self.__df_stations.at[code, 'Longitude'] = self._get_text(element=station.find('Longitude'))
+            self.__df_stations.at[code, 'Altitude'] = self._get_text(element=station.find('Altitude'))
+            self.__df_stations.at[code, 'Watersheds'] = self._get_text(element=station.find('Bacia'))
+            self.__df_stations.at[code, 'Catchment'] = self._get_text(element=station.find('SubBacia'))
+            self.__df_stations.at[code, 'Status'] = self._get_text(element=station.find('StatusEstacao'))
+            self.__df_stations.at[code, 'City'] = self._get_text(element=station.find('Municipio-UF'))
+            self.__df_stations.at[code, 'Responsible'] = self._get_text(element=station.find('Responsavel'))
+            self.__df_stations.at[code, 'Operator'] = self._get_text(element=station.find('Operadora'))
+            self.__df_stations.at[code, 'Origin'] = self._get_text(element=station.find('Origem'))
+            self.__df_stations.at[code, 'River'] = self._get_text(element=station.find('CodRio'))
 
             obj = _Station(
-                code=code, name=self.__get_text(element=station.find('NomeEstacao')), 
-                lat=self.__get_text(element=station.find('Latitude')),
-                lon=self.__get_text(element=station.find('Longitude')), 
-                alt=self.__get_text(element=station.find('Altitude')), 
-                catchment=self.__get_text(element=station.find('SubBacia')), 
-                watersheds=self.__get_text(element=station.find('Bacia')),
-                status=self.__get_text(element=station.find('StatusEstacao')), 
-                city=self.__get_text(element=station.find('Municipio-UF')),
-                responsible=self.__get_text(element=station.find('Responsavel')), 
-                origin=self.__get_text(element=station.find('Origem')),
-                operator=self.__get_text(element=station.find('Operadora')), 
-                river=self.__get_text(element=station.find('CodRio')))
+                code=code, name=self._get_text(element=station.find('NomeEstacao')), 
+                lat=self._get_text(element=station.find('Latitude')),
+                lon=self._get_text(element=station.find('Longitude')), 
+                alt=self._get_text(element=station.find('Altitude')), 
+                catchment=self._get_text(element=station.find('SubBacia')), 
+                watersheds=self._get_text(element=station.find('Bacia')),
+                status=self._get_text(element=station.find('StatusEstacao')), 
+                city=self._get_text(element=station.find('Municipio-UF')),
+                responsible=self._get_text(element=station.find('Responsavel')), 
+                origin=self._get_text(element=station.find('Origem')),
+                operator=self._get_text(element=station.find('Operadora')), 
+                river=self._get_text(element=station.find('CodRio')))
             self.__stations[obj.code] = obj

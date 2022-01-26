@@ -25,6 +25,13 @@ class ApiBiuld(metaclass=ABCMeta):
             root = tree.getroot()
 
         return root
+    
+    def _get_text(self, element):
+        try:
+            return element.text
+        
+        except AttributeError:
+            return None
 
     @abstractmethod
     def _get(self, **kwargs):
