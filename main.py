@@ -1,8 +1,8 @@
-from dataclasses import dataclass
-from posixpath import split
-from hydro_api.ana.sar import Reservoirs
-# from hydro_api.ana.hidro import Stations, SerieTemporal, EntityApi
-from hydro_api.ana.telemetric import Stations, SerieTemporal
+
+import timeit
+# from hydro_api.ana.sar import Reservoirs
+from hydro_api.ana.hidro import Stations, SerieTemporal, EntityApi
+# from hydro_api.ana.telemetric import Stations, SerieTemporal
 
 # reservoir = Reservoirs()["19086"]
 # print(reservoir.series_temporal.flow.to_csv("sar_manso.csv"))
@@ -11,10 +11,18 @@ from hydro_api.ana.telemetric import Stations, SerieTemporal
 # print(reservoir.series_temporal.affluence)
 
 # station = SerieTemporal(code='00835026', type_data='2')
-# stations = SerieTemporal(code='1448000', start_date='20/01/2022', end_date='24/01/2022')
+ini = timeit.default_timer()
+# stations = SerieTemporal(code='39580000', start_date='20/12/2021', end_date='')
 # print(stations.data)
 
-stations = Stations()
-alagoas = stations.get_stations(state='AL')
-print(alagoas)
+stations = Stations(name_state='Alagoas')
+df_stations = stations.get_dataframe()
+print(df_stations)
+
+# print(stations['39580000'])
+# alagoas = stations.get_stations(state='AL')
+# print(alagoas)
 # print(dataframe['City'].apply(split('-'), axis=1))
+fim = timeit.default_timer()
+
+print('Duracao: ', fim - ini)

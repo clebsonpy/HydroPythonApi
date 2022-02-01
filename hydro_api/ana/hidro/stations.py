@@ -88,6 +88,10 @@ class Stations(ApiBiuld):
     def stations_code(self):
         return self.__stations.keys()
 
+    def get_dataframe(self):
+
+        return self.__df_stations
+
     def _get(self, root):
 
         for station in root.iter('Table'):

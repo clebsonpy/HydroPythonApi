@@ -67,7 +67,7 @@ class Stations(ApiBiuld):
         return self.__stations.keys()
 
     def _get(self, root):
-
+        count = []
         for station in root.iter('Table'):
             code = station.find('CodEstacao').text
             self.__df_stations.at[code, 'Name'] = self._get_text(element=station.find('NomeEstacao'))
@@ -81,6 +81,7 @@ class Stations(ApiBiuld):
                 self.__df_stations.at[code, 'City'] = self._get_text(element=station.find('Municipio-UF'))
                 self.__df_stations.at[code, 'State'] = self._get_text(element=station.find('Municipio-UF')).split('-')[-1]
             except AttributeError:
+                count.append(station.find('CodEstacao').text)
                 self.__df_stations.at[code, 'City'] = self._get_text(element=station.find('Municipio-UF'))
                 self.__df_stations.at[code, 'State'] = self._get_text(element=station.find('Municipio-UF'))
             self.__df_stations.at[code, 'Responsible'] = self._get_text(element=station.find('Responsavel'))
@@ -102,3 +103,5 @@ class Stations(ApiBiuld):
                 operator=self._get_text(element=station.find('Operadora')), 
                 river=self._get_text(element=station.find('CodRio')))
             self.__stations[obj.code] = obj
+        
+        print(count)
