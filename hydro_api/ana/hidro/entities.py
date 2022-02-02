@@ -1,5 +1,5 @@
 import pandas as pd
-from ..api_biuld import ApiBiuld
+from ..api_build import ApiBuild
 
 
 class _Entity:
@@ -16,7 +16,7 @@ class _Entity:
         return f"{self.abbreviation} - {self.name}"
 
 
-class EntityApi(ApiBiuld):
+class EntityApi(ApiBuild):
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroEntidades'
     params = {'codEntidade': ''}
 

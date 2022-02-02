@@ -1,5 +1,5 @@
 import pandas as pd
-from ..api_biuld import ApiBiuld
+from ..api_build import ApiBuild
 
 
 class _Watersheds:
@@ -33,7 +33,7 @@ class _Basin:
         return f"Code: {self.code}\nName: {self.name}"
 
 
-class BasinApi(ApiBiuld):
+class BasinApi(ApiBuild):
 
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroBaciaSubBacia'
     params = {'codBacia': '', 'codSubBacia': ''}

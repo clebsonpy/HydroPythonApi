@@ -4,10 +4,10 @@ import pytz
 
 import pandas as pd
 import calendar as ca
-from ..api_biuld import ApiBiuld
+from ..api_build import ApiBuild
 
 
-class SerieTemporal(ApiBiuld):
+class SerieTemporal(ApiBuild):
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroSerieHistorica'
     params = {'codEstacao': '', 'dataInicio': '', 'dataFim': '', 'tipoDados': '', 'nivelConsistencia': ''}
     typesData = {'3': ['Vazao{:02}'], '2': ['Chuva{:02}'], '1': ['Cota{:02}']}

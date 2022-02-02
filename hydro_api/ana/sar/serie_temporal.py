@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime
-from ..api_biuld import ApiBiuld
+from ..api_build import ApiBuild
 
 
 class SerieTemporalNis:
@@ -21,7 +21,7 @@ class SerieTemporalNor:
         self.capacity = None
 
 
-class SerieTemporal(ApiBiuld):
+class SerieTemporal(ApiBuild):
     url = ["http://sarws.ana.gov.br/SarWebService.asmx/DadosHistoricosSIN",
            "http://sarws.ana.gov.br/SarWebService.asmx/DadosHistoricosReservatorios"]
 

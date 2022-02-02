@@ -1,5 +1,5 @@
 import pandas as pd
-from ..api_biuld import ApiBiuld
+from ..api_build import ApiBuild
 from .serie_temporal import SerieTemporal
 
 
@@ -23,7 +23,7 @@ class Reservoir:
         return self.__series_temporal
 
 
-class Reservoirs(ApiBiuld):
+class Reservoirs(ApiBuild):
     url = ["http://sarws.ana.gov.br/SarWebService.asmx/ReservatoriosSIN",
            "http://sarws.ana.gov.br/SarWebService.asmx/ReservatoriosNordeste"]
     params = {}

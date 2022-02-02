@@ -1,6 +1,6 @@
 import pandas as pd
 
-from ..api_biuld import ApiBiuld
+from ..api_build import ApiBuild
 from ..hidro.basin import BasinApi
 from ..hidro.serie_temporal import SerieTemporal
 
@@ -35,7 +35,7 @@ class _Station:
                f"\nResponsible: {self.responsible}\nOperator: {self.operator}\nWatersheds: {self.watersheds.name}"
 
 
-class Stations(ApiBiuld):
+class Stations(ApiBuild):
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroInventario'
     params = {'codEstDE': '', 'codEstATE': '', 'tpEst': '', 'nmEst': '', 'nmRio': '', 'codSubBacia': '', 'codBacia': '',
               'nmMunicipio': '', 'nmEstado': '', 'sgResp': '', 'sgOper': '', 'telemetrica': ''}
