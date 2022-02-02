@@ -7,12 +7,13 @@ import numpy as np
 import calendar as ca
 
 from hydro_api.ana.hidro import serie_temporal
-from ..api_biuld import ApiBiuld
+from ..api_build import ApiBuild
 
 
-class SerieTemporal(ApiBiuld):
+class SerieTemporal(ApiBuild):
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/DadosHidrometeorologicos'
     params = {'codEstacao': '', 'dataInicio': '', 'dataFim': ''}
+    source = 'ANA'
 
     def __init__(self, code: str, start_date: str = '', end_date: str = '', tz: str = None):
         """

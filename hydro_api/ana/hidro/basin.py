@@ -37,6 +37,7 @@ class BasinApi(ApiBuild):
 
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroBaciaSubBacia'
     params = {'codBacia': '', 'codSubBacia': ''}
+    source = 'ANA'
 
     def __init__(self,  code_basin='', code_watersheds=''):
         kwargs = {'codBacia': code_basin, 'codSubBacia': code_watersheds}

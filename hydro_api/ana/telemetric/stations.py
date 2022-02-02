@@ -2,7 +2,7 @@ import pandas as pd
 
 from hydro_api.ana.hidro import serie_temporal
 
-from ..api_biuld import ApiBiuld
+from ..api_build import ApiBuild
 
 
 class _Station:
@@ -27,9 +27,10 @@ class _Station:
                f"\nResponsible: {self.responsible}\nOperator: {self.operator}\nWatersheds: {self.watersheds}"
 
 
-class Stations(ApiBiuld):
+class Stations(ApiBuild):
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/ListaEstacoesTelemetricas'
     params = {'statusEstacoes': '', 'origem': ''}
+    source = 'ANA'
 
     def __init__(self, status: str = '', origin: str = ''):
         """

@@ -27,6 +27,7 @@ class Reservoirs(ApiBuild):
     url = ["http://sarws.ana.gov.br/SarWebService.asmx/ReservatoriosSIN",
            "http://sarws.ana.gov.br/SarWebService.asmx/ReservatoriosNordeste"]
     params = {}
+    source = 'ANA'
 
     def __init__(self, code=None):
         self.__df_reservoir = pd.DataFrame(columns=["Code", "Name", "City", "State", "tag"])

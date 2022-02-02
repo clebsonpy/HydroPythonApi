@@ -39,6 +39,7 @@ class Stations(ApiBuild):
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroInventario'
     params = {'codEstDE': '', 'codEstATE': '', 'tpEst': '', 'nmEst': '', 'nmRio': '', 'codSubBacia': '', 'codBacia': '',
               'nmMunicipio': '', 'nmEstado': '', 'sgResp': '', 'sgOper': '', 'telemetrica': ''}
+    source = 'ANA'
 
     def __init__(self, code_start: str = '', code_end: str = '', type_station: str = '', name: str = '',
                  name_river: str = '', code_watersheds: str = '', code_basin: str = '', name_city: str = '',

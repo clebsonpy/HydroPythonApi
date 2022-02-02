@@ -26,6 +26,7 @@ class SerieTemporal(ApiBuild):
            "http://sarws.ana.gov.br/SarWebService.asmx/DadosHistoricosReservatorios"]
 
     params = {'CodigoReservatorio': '', 'DataInicial': '', 'DataFinal': ''}
+    source = 'ANA'
 
     def __init__(self, code, date_start='01/01/1900', date_end=datetime.now().date().strftime("%d/%m/%Y"), tag=None):
         kwargs = {'CodigoReservatorio': code, 'DataInicial': date_start, 'DataFinal': date_end}

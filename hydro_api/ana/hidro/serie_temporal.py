@@ -11,6 +11,7 @@ class SerieTemporal(ApiBuild):
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroSerieHistorica'
     params = {'codEstacao': '', 'dataInicio': '', 'dataFim': '', 'tipoDados': '', 'nivelConsistencia': ''}
     typesData = {'3': ['Vazao{:02}'], '2': ['Chuva{:02}'], '1': ['Cota{:02}']}
+    source = 'ANA'
 
     def __init__(self, code: str, type_data: str, date_start: str = '', date_end: str = '', consistence: str = '',
                  tz: str = None):

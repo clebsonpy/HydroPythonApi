@@ -19,6 +19,7 @@ class _Entity:
 class EntityApi(ApiBuild):
     url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroEntidades'
     params = {'codEntidade': ''}
+    source = 'ANA'
 
     def __init__(self, code_entity=''):
         kwargs = {'codEntidade': code_entity}
