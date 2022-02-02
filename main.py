@@ -1,7 +1,7 @@
 
 import timeit
 # from hydro_api.ana.sar import Reservoirs
-from hydro_api.inmet import Stations
+from hydro_api.inmet import Stations, SerieTemporal
 # from hydro_api.ana.telemetric import Stations, SerieTemporal
 
 # reservoir = Reservoirs()["19086"]
@@ -15,10 +15,12 @@ ini = timeit.default_timer()
 # stations = SerieTemporal(code='39580000', start_date='20/12/2021', end_date='')
 # print(stations.data)
 
-stations = Stations(station_type='conventional')
-print(stations.get_dataframe())
-print(stations['A422'])
-print(stations.stations_code)
+# stations = Stations(station_type='conventional')
+# print(stations.get_dataframe())
+# print(stations['A422'])
+# print(stations.stations_code)
+series = SerieTemporal('A756', start_date='2022-01-01', aggregation='hour')
+print(series)
 
 # print(stations['39580000'])
 # alagoas = stations.get_stations(state='AL')
