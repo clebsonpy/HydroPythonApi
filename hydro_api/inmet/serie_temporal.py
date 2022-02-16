@@ -31,7 +31,6 @@ class SerieTemporal(ApiBuild):
 
         root = self.requests()
         self.data = self._get(root=root, tz=tz)
-        print(self.data)
 
     def _get(self, root, tz):
         return pd.read_json(json.dumps(root))
