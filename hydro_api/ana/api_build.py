@@ -1,3 +1,4 @@
+import json.decoder
 from abc import ABCMeta, abstractmethod
 import xml.etree.ElementTree as ET
 import requests
@@ -27,7 +28,11 @@ class ApiBuild(metaclass=ABCMeta):
 
             elif self.source == 'INMET':
                 response = requests.get(self.url, timeout=180)
-                root = response.json()
+                try:
+                    root = response.json()
+
+                except json.decoder.JSONDecodeError:
+                    root = None
 
             else:
                 root = None

@@ -1,22 +1,15 @@
 
 import timeit
-# from hydro_api.ana.sar import Reservoirs
-# from hydro_api.inmet import Stations, SerieTemporal
-from hydro_api.ana.telemetric import Stations, SerieTemporal
+from hydro_api.inmet import Stations, SerieTemporal
+# from hydro_api.ana.telemetric import Stations, SerieTemporal
 
-# reservoir = Reservoirs()["19086"]
-# print(reservoir.series_temporal.flow.to_csv("sar_manso.csv"))
-# print(serie.get(code="12541", date_start="03/04/2019").volume)
-# print(reservoir.series_temporal.flow)
-# print(reservoir.series_temporal.affluence)
 
-# station = SerieTemporal(code='00835026', type_data='2')
 ini = timeit.default_timer()
-stations = SerieTemporal(code='39580000', start_date='20/12/2021', end_date='')
+stations = SerieTemporal(code='A756', aggregation='hour', start_date='2021-12-20')
 series_temporal = stations.data
 print(series_temporal)
 for data in series_temporal:
-    if data == 'flow':
+    if data == 'VEN_VEL':
         series = series_temporal[data]
         for i in series.index:
             print(i)

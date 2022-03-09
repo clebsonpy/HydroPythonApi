@@ -33,7 +33,18 @@ class SerieTemporal(ApiBuild):
         self.data = self._get(root=root, tz=tz)
 
     def _get(self, root, tz):
-        return pd.read_json(json.dumps(root))
+
+        if root:
+            df = pd.read_json(json.dumps(root))
+
+            df['Date'] = df['DT_MEDICAO'] + " " + df['HR_MEDICAO'].map(str).str.zfill(4)
+            df['Date'] = pd.to_datetime(df['Date'])
+            df.index = df['Date']
+            df.drop(columns=['Date', 'HR_MEDICAO', 'DT_MEDICAO'], inplace=True)
+
+            return df
+
+        return pd.DataFrame()
     #
     #     series = []
     #     for month in root.iter('SerieHistorica'):
